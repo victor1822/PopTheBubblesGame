@@ -1,0 +1,13 @@
+body{
+    background-color: #e8cffc;
+}
+
+.ball{
+    background-color:#9179ff;
+    border-radius: 100%;
+    position: absolute;
+}
+
+.ball:active{
+    background-color: #6d4dff;
+}
