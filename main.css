@@ -11,3 +11,70 @@ body{
 .ball:active{
     background-color: #6d4dff;
 }
+
+#modal{
+    height: 100vh;
+    width: 100vw;
+    background-color: #0e0a14ef;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 400ms;
+}
+
+#modal.hide{
+    display: none;
+}
+
+#modal .content{
+    background-color: #9279ff8c;
+    height: 30vw;
+    width: 30vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+
+@media (min-width: 650px) {
+    #modal .content{
+        height: 30vw;
+        width: 30vw;
+    }
+}
+
+@media (min-width: 750px) {
+    #modal .content{
+        height: 20vw;
+        width: 20vw;
+    }
+}
+
+@media (min-width: 1660px) {
+    #modal .content{
+        height: 10vw;
+        width: 10vw;
+    }
+}
+
+@media (max-width: 515px) {
+    #modal .content{
+        height: 50vw;
+        width: 50vw;
+    }
+}
+
+@media (max-width: 330px) {
+    #modal .content{
+        height: 70vw;
+        width: 70vw;
+    }
+}
+
+#modal .content h1{
+    color: orangered;
+}
