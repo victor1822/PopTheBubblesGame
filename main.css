@@ -40,6 +40,16 @@ body{
     border-radius: 100%;
 }
 
+#modal .content2{
+    background-color: #9279ff8c;
+    height: 60vw;
+    width: 60vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
 @media (min-width: 650px) {
     #modal .content{
         height: 30vw;
