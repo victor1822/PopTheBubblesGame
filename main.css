@@ -1,7 +1,42 @@
+/* Fonts
+font-family: 'Monoton', cursive;
+font-family: 'Righteous', cursive; */
+
+*{
+    border-style: none;
+}
+
+/* ScrollBar style configuration */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: whitesmoke;
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #cfcfcf; 
+    border-bottom-right-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #322279;
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #261575; 
+  }
+
 body{
     background-color: #e8cffc;
 }
 
+/* Removing borders around inputs and buttons when they are focused */
 button:focus, input:focus{
     outline: none;
 }
@@ -12,10 +47,12 @@ button:focus, input:focus{
     position: absolute;
 }
 
+/* :active applies this styles to the div .ball when the div is being clicked */
 .ball:active{
     background-color: #6d4dff;
 }
 
+/* #Modal is the div that is the background of the popups of the app. The one of the countdown, the one with the input to submit a score with a name and the one with the list of scores */
 #modal{
     height: 100vh;
     width: 100vw;
@@ -30,10 +67,14 @@ button:focus, input:focus{
     transition: 400ms;
 }
 
+/* This style only is active when the div whit id attribute named modal has a class attribute named hide on its classlist 
+    When the div that has this class is hidden, with the display attribute set to none, it hides the element and all of its chield nodes
+*/
 #modal.hide{
     display: none;
 }
 
+/* content is the class attribute of the main div when the app starts (the one that displays the coundown), inside the #modal div */
 #modal .content{
     background-color: #9279ff8c;
     height: 30vw;
@@ -44,9 +85,16 @@ button:focus, input:focus{
     border-radius: 100%;
 }
 
+#modal .content h1{
+    font-family: 'Righteous', cursive;
+    color: orangered;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+/* content2 is the class attribute of the main div (the one that displays the score and has an input and a button to submit a score with name and date), inside the #modal div */
 #modal .content2{
-    background-color: #9279ff8c;
-    height: 60vh;
+    background-color: #6c52df8c;
+    height: 30vh;
     width: 60vw;
     display: flex;
     flex-direction: column;
@@ -56,10 +104,13 @@ button:focus, input:focus{
     box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 }
 
+
 #modal .content2 h1{
-    color: lightgreen;
     text-shadow: 2px 2px 4px #000000;
-    margin: 10px 10px 30px 10px;
+    margin: 0px 0px 35px 0px;
+    font-family: 'Monoton', cursive;
+    font-size: 40px;
+    color: orangered;
 }
 
 #modal .content2 div.form{
@@ -85,6 +136,12 @@ button:focus, input:focus{
     border-bottom-left-radius: 10px;
     border-style: none;
     text-align: center;
+    color: #261575; 
+    font-family: 'Righteous', cursive;
+}
+
+#modal .content2 div.form #input-submit::placeholder{
+    color: #645d88; 
 }
 
 #modal .content2 div.form #btn-submit{
@@ -97,14 +154,170 @@ button:focus, input:focus{
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background-size: contain;
-    background-color: lightgreen;
+    background-color: rgb(102, 233, 102);
     background-position: center;
+    cursor: pointer;
 }
 
 #modal .content2 div.form #btn-submit:hover{
-    background-color: rgb(114, 240, 114);
+    background-color: rgb(64, 238, 64);
 }
 
+
+/* content3 is the class attribute of the main div (the one that displays the list of scores ordered by pontuation and has a button to reload the game), inside the #modal div */
+#modal .content3{
+    background-color: #6c52df81;
+    height: 95vh;
+    width: 80vw;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
+}
+
+#modal .content3 .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal .content3 .title h1{
+    font-family: 'Monoton', cursive;
+    font-size: 40px;
+    color:  orangered;
+    text-shadow: 2px 2px 4px #000000;
+    text-align: center;
+    margin: 0;
+}
+
+#modal .content3 .table{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    justify-self: center;
+    width: 80%;
+    height: 90%;
+    align-self: center;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,.621);
+}
+
+#modal .content3 .table .titles{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(124, 226, 213);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#modal .content3 .table .titles h3{
+    width: 30%;
+    text-align: center;
+    margin: 0;
+    font-family: 'Righteous', cursive;
+    color: #261575; 
+}
+
+#modal .content3 .table #display{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(245, 245, 245, 0.459);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: auto;
+}
+
+#modal .content3 .table #display ul{
+    margin: 0 0;
+    padding-left: 0;
+}
+
+#modal .content3 .table #display ul li{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 10vh;
+    background-color: rgb(144, 238, 183);
+}
+
+#modal .content3 .table #display ul li:nth-child(odd){
+    /* background-color: rgba(245, 245, 245, 0.562); */
+    background-color: whitesmoke
+}
+
+#modal .content3 .table #display ul li h4{
+    width: 30%;
+    text-align: center;
+    margin: 0;
+    vertical-align: center;
+    align-self: center;
+    color: #0b003a; 
+    font-family: 'Righteous';
+}
+
+#modal .content3 .btnGroup{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#modal .content3 .btnGroup #btn-retry{
+    display: grid;
+    width: 50%;
+    height: 65%;
+    grid-template-columns: 75% 25%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.621);
+    cursor: pointer;
+}
+
+#modal .content3 .btnGroup #btn-retry:active{
+    box-shadow: 5px 5px 5px 5px rgba(70, 70, 70, 0.5);
+}
+
+#modal .content3 .btnGroup #btn-retry:active .text{
+    background-color: rgb(116, 245, 170);
+}
+
+#modal .content3 .btnGroup #btn-retry:active .image{
+    background-color: rgb(100, 241, 223);
+}
+
+#modal .content3 .btnGroup #btn-retry .text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(144, 238, 183);
+}
+
+#modal .content3 .btnGroup #btn-retry .text h2{
+    margin: 0;
+    color: #261575;
+    /* text-shadow: 2px 2px 30px #000000; */
+}
+
+#modal .content3 .btnGroup #btn-retry .image{
+    width: 100%;
+    background-image: url("log-in.svg");
+    background-repeat: no-repeat;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-style: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-size: contain;
+    background-color: rgb(124, 226, 213);
+    background-position: center;
+}
+
+/* Responsivity of the .content div */
 @media (min-width: 650px) {
     #modal .content{
         height: 30vw;
@@ -138,8 +351,4 @@ button:focus, input:focus{
         height: 70vw;
         width: 70vw;
     }
-}
-
-#modal .content h1{
-    color: orangered;
 }
