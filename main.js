@@ -78,7 +78,7 @@ function addBall(){
     document.querySelector("body").appendChild(newBall);
     //In case the addBall function was called 240 times, stop adding balls
     // if(iterations >= 240){
-    if(iterations >= 40){
+    if(iterations >= 200){
         clearInterval(interval);
         stopGameAndDisplayScore();
     }
