@@ -100,7 +100,15 @@ button:focus, input:focus{
     background-color: rgba(255, 160, 122, 0.829);
 }
 
-
+/* Stop showing a blue background when touch this elements on the phone */
+.bubble,.bomb{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 /* #Modal is the div that is the background of the popups of the app. The one of the countdown, the one with the input to submit a score with a name and the one with the list of scores */
 #modal{
