@@ -101,7 +101,7 @@ button:focus, input:focus{
 }
 
 /* Stop showing a blue background when touch this elements on the phone */
-.bubble,.bomb{
+.bomb,.bomb.boom:before,.bubble,.bubble.pop:before{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
