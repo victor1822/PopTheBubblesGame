@@ -420,6 +420,8 @@ function reloadAndDisplayResults(){
     }
 }
 
+//----------------------------->>>> FUNCTION CALLS
+
 //Loads the scores from the storage then starts the coundown to start the game!
 loadScoresFromStorage()
     .then(()=>{
