@@ -1,98 +1,164 @@
-    //CLASSES
+//----------------------------->>>> CLASSES
 
-// class score created to store the data of the pontuation and associate it with the game players
+// Class score created to store the data of the punctuation and associate it with the game players
 class Score {
     constructor(name,date,score) {
       this.name = name;
       this.date = date;
-      this.pontuation = score;
+      this.punctuation = score;
     }
   }
 
-  //GLOBAL VARIABLES
+//----------------------------->>>> GLOBAL VARIABLES
 
 //variable to store the number of bubbles we've popped! 
 var score = 0;
-//Variable created to store the interval of time set to call the function addBall
+//Variable created to store the interval of time set to call the function addBubble
 let interval;
-//It is a variable that stores a number to limit how many times the function addBalls will be called
+//It is a variable that stores a number to limit how many times the function addBubbles will be called
 let iterations;
 //An Array of Scores (The class with name, date and ponctuation)
 let allScores = [];
-//An Array to store the possible colors to be chosen randomly at the addBall funcion, so it displays balls with random colors
-//This Arrays was created so I could choose the colors I want to be possible to appear at the game.
+//An Array to store the possible colors to be chosen randomly at the addBubble funcion, so it displays bubbles with random colors
+//This Array was created so I could choose the colors I want to be possible to appear at the game.
 let colorOptions = ["rgba(240, 128, 128, 0.541)","rgba(255, 160, 122, 0.507)","rgba(135, 206, 250, 0.534)","rgba(255, 182, 193, 0.705)","#9279ff8f","rgba(139, 0, 139, 0.541)","rgba(71, 61, 139, 0.658)","rgba(0, 0, 139, 0.459)","rgba(255, 140, 0, 0.473)"];
 
-function loadScores(){
+
+//----------------------------->>>> FUNCTIONS RELATED TO THE LOCAL STORAGE
+
+//This function loads the previows data of the game from the browser, so the user can play and compare his score through time
+function loadScoresFromStorage(){
     // Get the older scores stored on the browser at the local storage!
     return new Promise((resolve, reject)=>{
-        allScores = JSON.parse(localStorage.getItem('scores_list')) || []; //in case there's nothing at the local storage, load an empty list
+        allScores = JSON.parse(localStorage.getItem('scores_list')) || []; //in case there's nothing at the local storage, load an empty array
         resolve(allScores);
     });
 }
-
+//This function stores the new score records into the local storage
 function saveScoreToStorage(){
-    //save the new scores to the local storage!
+    //Save the new scores to the local storage!
     localStorage.setItem('scores_list',JSON.stringify(allScores));
 }
 
-//Function to be called when the element is clicked
-function removeBall(element){
-    //It removes the element from the DOM three
-    document.querySelector("body").removeChild(element);
-    //When a bubble is popped on the game, the user's score increases by 1
-    score++;
-}
+//----------------------------->>>> RANDOM FUNCTIONS
 
+//Returns a random color from the colorOptions array
 function chooseRandomColor(){
     var arraySize = colorOptions.length;
     var choice =  Math.floor(Math.random() * arraySize) - 1;
     return colorOptions[choice];
 }
 
-//Function to add a new Element to the Dom Three as a child of the body node
-function addBall(){
+//Chooses randomly what will be the next element to be added to the dom tree: A bomb or a bubble.
+function addChoose(){
+    if(Math.floor(Math.random()*20) > 2){
+        addBubble();
+    } 
+    else {
+        addBomb();
+    }
+}
+
+//----------------------------->>>> FUNCTIONS OF DOM MANIPULATION TO REMOVE, CHANGE AND ADD ELEMENTS FROM THE DOM TREE
+
+//------------>> Functions to remove elements from the dom three trigged addBomb Function
+
+//This function removes the bubbles from the dom tree, they are trigged on the div.bubble elements by the click event
+function removeBubble(element){
+    //Just to make sure to this element don't call any function with the mouse event "click" until it's still on the DOM tree
+    element.onclick = "";
+    //Adds the class "pop" to the classlist, so it could change its styling on the css file until it's still on the DOM tree
+    element.classList.add("pop");
+    //It removes the element from the DOM three 100ms later
+    setTimeout(()=>{
+        document.querySelector("body").removeChild(element);
+    },100);
+    //When a bubble is popped on the game, the user's score increases by 1
+    score++;
+    console.log(score);
+}
+
+//This function removes the bombs from the dom tree and channge the score, they are trigged on the div.bomb elements by the click event
+function removeBomb(element){
+    //Just to make sure to this element don't call any function with the mouse event "click" until it is removved from the DOM treee
+    element.onclick="";
+    //Adds the class "boom" to the classlist, so it could change its styling on the css file
+    element.classList.add("boom");
+    //It removes the element from the DOM three 150ms later
+    setTimeout(()=>{
+        document.querySelector("body").removeChild(element);
+    },150);
+    //When a bomb is popped on the game, the user's score increases by 1
+    score = (score <= 5) ? 0 : score-5; //The score can't be negative!
+    console.log(score);
+}
+
+//------------>> Functions to add elements from the dom three trigged addBomb Function
+
+//This function adds a bomb to the DOM tree with a random position and diameter with a onclick event to remove it from the dom tree and change the score
+function addBomb(){
     iterations++;
     //Calculate the viewport dimentions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    //creates a div element 
-    let newBall = document.createElement("div");
-    //Sets a "class" atribute to the created element with the value "ball"
-    newBall.setAttribute("class","ball");
-    //Calculate a random number for the ball position on the page, from the top left to the bottom right position of the page.
+    //Creates a div element 
+    let newBomb = document.createElement("div");
+    //Sets a "class" atribute to the created element with the value "bomb"
+    newBomb.setAttribute("class","bomb");
+    //Calculate a random number for the bomb position on the page, from the top left to the bottom right position of the page.
     var top = Math.floor(Math.random()*viewportHeight);
     var left = Math.floor(Math.random()*viewportWidth);
-    //Makes the diamater of the ball be a random number from 30 to 70 px
-    var diameter = Math.floor(Math.random()*40) + 30; 
-    //Make sure the ball is positioned completely inside the viewport dimentions!
+    //Makes the diamater of the bomb be a random number from 40 to 80 px
+    var diameter = Math.floor(Math.random()*40) + 40; 
+    //Make sure the bomb is positioned completely inside the viewport dimentions!
     top = (top+diameter>viewportHeight)?top-diameter:top;
     left = (left+diameter>viewportWidth)?left-diameter:left;
     //Add a attribute onclick, so We can Add a function when the click event occurs at this element
-    newBall.setAttribute("onclick","removeBall(this)");
+    newBomb.setAttribute("onclick","removeBomb(this)");
 
-    var color = chooseRandomColor();
-
-    //Set this positions on the New Ball Element, setting a new atrribute for its css style
-    newBall.setAttribute("style","left:"+left+"px; top:"+top+"px; height:"+diameter+"px; width:"+diameter+"px; background-color:"+color+";")
-    document.querySelector("body").appendChild(newBall);
-    //In case the addBall function was called 240 times, stop adding balls
-    // if(iterations >= 240){
+    //Set this positions on the New Bubble Element, setting a new atrribute for its css style
+    newBomb.setAttribute("style","left:"+left+"px; top:"+top+"px; height:"+diameter+"px; width:"+diameter+"px;")
+    document.querySelector("body").appendChild(newBomb);
+    //When the addBubble function was called 200 times, stop adding bubbles
     if(iterations >= 200){
         clearInterval(interval);
         stopGameAndDisplayScore();
     }
 }
 
-//function that calls addBall() fuction infinite times in an interval of 250 milliseconds
-function initGame(){
-    //It will add a new ball to the dom tree every 0.25 seconds]
-    iterations = 0;
-    interval = setInterval(addBall,250);
+//Function to add a new Element to the Dom Three as a child of the body node
+function addBubble(){
+    iterations++;
+    //Calculate the viewport dimentions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    //creates a div element 
+    let newBubble = document.createElement("div");
+    //Sets a "class" atribute to the created element with the value "bubble"
+    newBubble.setAttribute("class","bubble");
+    //Calculate a random number for the bubble position on the page, from the top left to the bottom right position of the page.
+    var top = Math.floor(Math.random()*viewportHeight);
+    var left = Math.floor(Math.random()*viewportWidth);
+    //Makes the diamater of the bubble be a random number from 30 to 70 px
+    var diameter = Math.floor(Math.random()*40) + 30; 
+    //Make sure the bubble is positioned completely inside the viewport dimentions!
+    top = (top+diameter>viewportHeight)?top-diameter:top;
+    left = (left+diameter>viewportWidth)?left-diameter:left;
+    //Add a attribute onclick, so We can Add a function when the click event occurs at this element
+    newBubble.setAttribute("onclick","removeBubble(this)");
+    //Chosse a random color to set as the bubble's background-color style attrubute
+    var color = chooseRandomColor();
+    //Set this positions on the New Bubble Element, setting a new atrribute for its css style
+    newBubble.setAttribute("style","left:"+left+"px; top:"+top+"px; height:"+diameter+"px; width:"+diameter+"px; background-color:"+color+";")
+    document.querySelector("body").appendChild(newBubble);
+    //In case the addBubble function was called 200 times, stop adding bubbles
+    if(iterations >= 200){
+        clearInterval(interval);
+        stopGameAndDisplayScore();
+    }
 }
 
-// const body = document.querySelector("body");
-// body.onload = initGame;
+//Function to return a promise, that will eventually return the value "3" when it's resolved, after 1 second
 function changeTo3(){
     return new Promise((resolve,reject)=>{
         setTimeout(()=>{
@@ -101,6 +167,7 @@ function changeTo3(){
     });
 }
 
+//Function to return a promise, that will eventually return the value "2" when it's resolved, after 1 second
 function changeTo2(){
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{
@@ -109,6 +176,7 @@ function changeTo2(){
     });
 }
 
+//Function to return a promise, that will eventually return the value "1" when it's resolved, after 1 second
 function changeTo1(){
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{
@@ -117,6 +185,7 @@ function changeTo1(){
     });
 }
 
+//Function to return a promise, that will eventually return the value "GO!!" when it's resolved, after 1 second
 function changeToStart(){
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{
@@ -125,6 +194,7 @@ function changeToStart(){
     });
 }
 
+//Function to return a promise, that will eventually return nulll and set a new class to the classList of the #modal div on the DOM tree, when it's resolved, after 1 second
 function HideModal(){
     return new Promise((resolve,reject)=>{
         setTimeout(()=>{
@@ -134,20 +204,49 @@ function HideModal(){
     });
 }
 
+//This function triggers a sequence of promises so the functions can run synchronously so it changes the same DOM element's innerHTML, displaying a cowntdown from 3 to 1, than displays a message to call the start game function
+function callCountdown(){
+    changeTo3()
+    .then((res)=>{
+        let h1 = document.querySelector("#modal .content h1");
+        h1.innerHTML = res;
+        changeTo2()
+            .then((res=>{
+                h1.innerHTML = res;
+                changeTo1()
+                    .then((res)=>{
+                        h1.innerHTML = res;
+                        changeToStart()
+                            .then((res)=>{
+                                h1.innerHTML = res;
+                                HideModal()
+                                    .then(()=>{
+                                        initGame();
+                                    });
+                            });
+                    });
+            }));
+    });
+} 
+
+//This function loads the list of scores that is on the array allScores, sorted by punctuation
 function loadScoresOnDiv(){
+    //Select the element that will contain the list of scores to be displayed and stores it on a const variable named displayUl
     const displayUl = document.querySelector("#display ul");
+    //Sorts the array by punctuation
     allScores.sort(function(a, b){
-        return b.pontuation-a.pontuation
+        return b.punctuation-a.punctuation
     })
     for(oneScore of allScores){
-        var {name, date, pontuation} = oneScore;
+        //Desctruction of oneScore to take its name, date and punctuation and use them as a local variable
+        var {name, date, punctuation} = oneScore;
+        //Create 3 h4 tags with those tree attributes of the object as their innerHTML. One for the name, one for the punctuation, and the last one to the date
         var novoH4_1 = document.createElement("h4");
         novoH4_1.innerHTML = `${name}`;
         var novoH4_2 = document.createElement("h4");
-        novoH4_2.innerHTML = `${pontuation}`;
+        novoH4_2.innerHTML = `${punctuation}`;
         var novoH4_3 = document.createElement("h4");
-        var dateContent = `${date}`;
-        novoH4_3.innerHTML = dateContent; 
+        novoH4_3.innerHTML = `${date}`; 
         var newLi = document.createElement("li");
         newLi.appendChild(novoH4_1);
         newLi.appendChild(novoH4_2);
@@ -156,6 +255,7 @@ function loadScoresOnDiv(){
     }
 }
 
+//This function ddisplays the all the scores and a button to try the game again.
 function DisplayAllScores(){
     //Creates a reference to a div with id = modal that exists in the DOM Tree!
     let modal = document.querySelector("#modal");
@@ -214,13 +314,13 @@ function DisplayAllScores(){
     //Create a div to the button to retry
     let newBtnDiv = document.createElement("div");
     newBtnDiv.setAttribute("id","btn-retry");
-    //div to display the word "retry"
+    //Div to display the word "retry"
     let newText = document.createElement("div");
     newText.classList.add("text");
     let newh2 = document.createElement("h2"); 
     newh2.innerHTML = "Try Again";
     newText.appendChild(newh2);
-    //an image to the button to make it look good!
+    //An image to the button to make it look good!
     let newImage = document.createElement("div");
     newImage.classList.add("image");
     newBtnDiv.appendChild(newText);
@@ -230,32 +330,14 @@ function DisplayAllScores(){
     btnGroup.onclick = tryAgain;
     btnGroup.appendChild(newBtnDiv);
 
-    //append it all to content3 div
+    //Append it all to content3 div
     content.appendChild(newTitle);
     content.appendChild(table);
     content.appendChild(btnGroup);
 
     modal.appendChild(content);
-
+    //Calls the function that loads the list to the DOM Tree
     loadScoresOnDiv();    
-}
-
-function reloadAndDisplayResults(){
-    //function to create a new score, store it on the local storage and reload the html to show the list of scores
-    // let ThisScore
-    if(document.querySelector("#input-submit").value == ""){
-        alert("Please, enter the name to save the score properly!!")
-    }
-    else{
-        var date = new Date();
-        // var dateString = `${date.toString().slice(0,-37)}`;
-        var dateString = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}'${date.getSeconds()}''${date.getMilliseconds()}`;
-        let newScore = new Score(document.querySelector("#input-submit").value, dateString, score);
-        allScores.push(newScore);
-        saveScoreToStorage();
-        score = 0;
-        DisplayAllScores();
-    }
 }
 
 function stopGameAndDisplayScore(){
@@ -293,30 +375,6 @@ function stopGameAndDisplayScore(){
     body.appendChild(newModal);
 }
 
-function callCountdown(){
-    changeTo3()
-    .then((resposta)=>{
-        let h1 = document.querySelector("#modal .content h1");
-        h1.innerHTML = resposta;
-        changeTo2()
-            .then((resposta=>{
-                h1.innerHTML = resposta;
-                changeTo1()
-                    .then((resposta)=>{
-                        h1.innerHTML = resposta;
-                        changeToStart()
-                            .then((resposta)=>{
-                                h1.innerHTML = resposta;
-                                HideModal()
-                                    .then(()=>{
-                                        initGame();
-                                    });
-                            });
-                    });
-            }));
-    });
-}
-
 function tryAgain(){
     return new Promise((resolve, reject)=>{
         const modal = document.querySelector("#modal .content3").parentNode;
@@ -336,8 +394,34 @@ function tryAgain(){
     });
 }
 
-loadScores()
+//----------------------------->>>> FUNCTIONS FOR STARTING THE GAME WORKFLOW
+
+//Function that starts the game
+function initGame(){
+    //It will add a new bubble to the dom tree every 0.25 seconds until the interval blobal variable is cleared.
+    iterations = 0;
+    interval = setInterval(addChoose,250);
+}
+
+//This function is called by click event on a button element. If the inputs are empty, returns an error message, but if it's not empty, it creates a new record of score with that name and adds it to the array allScores, then displays all scores
+function reloadAndDisplayResults(){
+    if(document.querySelector("#input-submit").value == ""){
+        alert("Please, enter the name to save the score properly!!")
+    }
+    else{
+        var date = new Date();
+        // var dateString = `${date.toString().slice(0,-37)}`;
+        var dateString = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}'${date.getSeconds()}''${date.getMilliseconds()}`;
+        let newScore = new Score(document.querySelector("#input-submit").value, dateString, score);
+        allScores.push(newScore);
+        saveScoreToStorage();
+        score = 0;
+        DisplayAllScores();
+    }
+}
+
+//Loads the scores from the storage then starts the coundown to start the game!
+loadScoresFromStorage()
     .then(()=>{
         callCountdown();
-    })
-// callCountdown();
+    });
