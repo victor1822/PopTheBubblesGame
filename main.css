@@ -108,6 +108,7 @@ button:focus, input:focus{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* #Modal is the div that is the background of the popups of the app. The one of the countdown, the one with the input to submit a score with a name and the one with the list of scores */
