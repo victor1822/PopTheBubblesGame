@@ -51,11 +51,18 @@ function chooseRandomColor(){
 
 //Chooses randomly what will be the next element to be added to the dom tree: A bomb or a bubble.
 function addChoose(){
+    //increments the number of elements added to the dom tree
+    iterations++;
     if(Math.floor(Math.random()*20) > 2){
         addBubble();
     } 
     else {
         addBomb();
+    }
+    //When the number of elements reaches 200, it stops adding elements to the DOM tree and runs the stopGameAndDisplayScore() function 
+    if(iterations >= 200){
+        clearInterval(interval);
+        stopGameAndDisplayScore();
     }
 }
 
@@ -97,7 +104,6 @@ function removeBomb(element){
 
 //This function adds a bomb to the DOM tree with a random position and diameter with a onclick event to remove it from the dom tree and change the score
 function addBomb(){
-    iterations++;
     //Calculate the viewport dimentions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -119,16 +125,10 @@ function addBomb(){
     //Set this positions on the New Bubble Element, setting a new atrribute for its css style
     newBomb.setAttribute("style","left:"+left+"px; top:"+top+"px; height:"+diameter+"px; width:"+diameter+"px;")
     document.querySelector("body").appendChild(newBomb);
-    //When the addBubble function was called 200 times, stop adding bubbles
-    if(iterations >= 200){
-        clearInterval(interval);
-        stopGameAndDisplayScore();
-    }
 }
 
 //Function to add a new Element to the Dom Three as a child of the body node
 function addBubble(){
-    iterations++;
     //Calculate the viewport dimentions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -152,10 +152,6 @@ function addBubble(){
     newBubble.setAttribute("style","left:"+left+"px; top:"+top+"px; height:"+diameter+"px; width:"+diameter+"px; background-color:"+color+";")
     document.querySelector("body").appendChild(newBubble);
     //In case the addBubble function was called 200 times, stop adding bubbles
-    if(iterations >= 200){
-        clearInterval(interval);
-        stopGameAndDisplayScore();
-    }
 }
 
 //Function to return a promise, that will eventually return the value "3" when it's resolved, after 1 second
