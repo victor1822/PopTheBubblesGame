@@ -59,10 +59,10 @@ function addChoose(){
     else {
         addBomb();
     }
-    //When the number of elements reaches 200, it stops adding elements to the DOM tree and runs the stopGameAndDisplayScore() function 
+    //When the number of elements reaches 200, it stops adding elements to the DOM tree and runs the DisplayScore() function 
     if(iterations >= 200){
         clearInterval(interval);
-        stopGameAndDisplayScore();
+        displayScore();
     }
 }
 
@@ -82,7 +82,6 @@ function removeBubble(element){
     },100);
     //When a bubble is popped on the game, the user's score increases by 1
     score++;
-    console.log(score);
 }
 
 //This function removes the bombs from the dom tree and channge the score, they are trigged on the div.bomb elements by the click event
@@ -97,7 +96,6 @@ function removeBomb(element){
     },150);
     //When a bomb is popped on the game, the user's score increases by 1
     score = (score <= 5) ? 0 : score-5; //The score can't be negative!
-    console.log(score);
 }
 
 //------------>> Functions to add elements from the dom three trigged addBomb Function
@@ -336,7 +334,7 @@ function DisplayAllScores(){
     loadScoresOnDiv();    
 }
 
-function stopGameAndDisplayScore(){
+function displayScore(){
     //Get the body elemennt
     let body = document.querySelector("body");
     //Clear the html inside the tag body to clear the bubbles that we didn't pop yet

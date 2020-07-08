@@ -37,5 +37,33 @@ That simply adds a new class to the classlist of the div modal, that adds a disp
 ![image](https://user-images.githubusercontent.com/30930332/86831871-d70ad100-c06d-11ea-8405-d50198754b6c.png)
 
 ##### 6) Then it runs the function initGame()
-That adds bombs and bubbles randomly for a certain ammount of time (250*200 ms = 50,000.00 ms = 50 s) as you can see at the next picture:
+That function adds bombs and bubbles randomly for a certain ammount of time (250*200 ms = 50,000.00 ms = 50 s) as you can see at the next picture:
 ![image](https://user-images.githubusercontent.com/30930332/86833499-f99de980-c06f-11ea-9728-ba988d1a43f3.png)
+
+The function "addChoose()" chooses which item is going to be added to the DOM tree, if it's a bomb or a bubble. This function is called by a setInterval (Which defines an interval as you can see in function initGame())
+![image](https://user-images.githubusercontent.com/30930332/86908697-54295b00-c0ed-11ea-90f1-f6ba265d225b.png)
+This interval ends by clearInterval() that is inside the function addChoose. clearInterval is called when the funcion is called 200 times, that makes 200 intervals of 250 ms (50 seconds of generating bombs and bubbles to the game)
+![image](https://user-images.githubusercontent.com/30930332/86908614-33f99c00-c0ed-11ea-891e-4c2afafd0c23.png)
+Then the game stops by calling the clearInterval() and it calls the next workflow that is triggered by the function stopGameAndDisplayScore(), that does exactly as it says: displays the score the player reached as you can see on the next image
+![image](https://user-images.githubusercontent.com/30930332/86912927-36abbf80-c0f4-11ea-8410-31a83c3cd98e.png)
+
+### How does the scores works?
+There are two functions that manipulates the score of the game. The one that is triggered by clicking a bom, or a bubble.
+#### If you click on a bomb, it calls the removeBomb() funcition
+That function simply change the background image by adding a new class to it's styleSheet (displaying -5 to warn the player that his score just decreased by 5, after it removes the click events from that bomb, so the user can't click on it again until it's removed from the DOM ,then removes the element from the DOM tree. The last but not least thing this function does is decrease the score by 5.
+![image](https://user-images.githubusercontent.com/30930332/86914050-049b5d00-c0f6-11ea-9408-c051a1840af1.png)
+So, it goes from this: 
+![image](https://user-images.githubusercontent.com/30930332/86914569-ebdf7700-c0f6-11ea-9a42-73d154be6cee.png)
+To this:
+![image](https://user-images.githubusercontent.com/30930332/86914618-ff8add80-c0f6-11ea-9ac0-88879b56134c.png)
+Then it's removed from the DOM tree, from the game and changes the score of the game to score - 5, or 0, if the score is less than 5, so we don't display any negative scores.
+#### If you click on a bubble, it calls the removeBubble() function
+That does something similar to the removeBomb() function, but it doesn't chages the Background propeties, or displays -5, but +1 instead of it, and the last but not least thing it does it's to increase the score by 1. 
+
+### When the game ends
+It displays the score, an input and a button, so the user can type his name to create a new score record for the gamme
+![image](https://user-images.githubusercontent.com/30930332/86912927-36abbf80-c0f4-11ea-8410-31a83c3cd98e.png)
+Clicking on the green button, it calls the function reloadAndDisplayResults() which triggers an workflow that changes the dom tree to another content that displays the list of scores records stored before on the browser he is playing at (the local storage), as you can see on the next image:
+![image](https://user-images.githubusercontent.com/30930332/86916830-8ee5c000-c0fa-11ea-9012-68c61224b258.png)
+#### When the "Try Again" button is clicked it changes the DOM to it's original form from the html file and restarts the game.
+

@@ -170,6 +170,7 @@ button:focus, input:focus{
     font-family: 'Monoton', cursive;
     font-size: 40px;
     color: orangered;
+    letter-spacing: 3px;
 }
 
 #modal .content2 div.form{
