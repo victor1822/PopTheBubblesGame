@@ -2,7 +2,7 @@
 A simple game made to practice the DOM manipulation, destrictions on objects to create new variables in a simple way, promises, events of clicking  and page load, etc. Feel free to play Pop Boubles as much as you can and make any suggestions on its future upgrades!
 
 ## Link to github Pages, so you can play it whenever you want!
-https://victor1822.github.io/PopTheBoublesGame/
+https://victor1822.github.io/PopTheBubblesGame/
 
 ### Game Workflow - Read HTML file
 
