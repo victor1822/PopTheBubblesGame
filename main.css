@@ -228,7 +228,7 @@ button:focus, input:focus{
 #modal .content3{
     background-color: #6c52df81;
     height: 95vh;
-    width: 80vw;
+    width: 95vw;
     display: grid;
     grid-template-rows: 10% 80% 10%;
     border-radius: 10px;
@@ -300,6 +300,7 @@ button:focus, input:focus{
     justify-content: space-around;
     height: 10vh;
     background-color: rgb(144, 238, 183);
+    width: auto;
 }
 
 #modal .content3 .table #display ul li:nth-child(odd){
@@ -410,5 +411,49 @@ button:focus, input:focus{
     #modal .content{
         height: 70vw;
         width: 70vw;
+    }
+}
+
+@media (max-width: 780px){
+    #modal .content2{
+        width: 70%;
+    }
+}
+
+@media (max-width: 780px){
+    #modal .content2{
+        width: 80%;
+    }
+}
+
+
+@media (max-width: 550px){
+    #modal .content2{
+        width: 90%;
+    }
+}
+
+@media (max-width: 450px){
+    #modal .content2 h1{
+        font-size: 20px;
+    }
+
+    #modal .content2 div.form #input-submit{
+        height: 30px;
+        font-size: 0.8em;
+
+    }
+    #modal .content2{
+        height: 20%;
+    }
+
+    #modal .content3 .table{
+        width: 90%;
+    }
+}
+
+@media (max-width: 390px){
+    #modal .content3 .table{
+        width: 100%;
     }
 }
